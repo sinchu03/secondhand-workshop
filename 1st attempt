@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ReWork Hub | Second Hand Workshop</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Poppins}
+body{background:#f4f6f8;color:#1f2933}
+header{
+ background:#111827;color:white;
+ padding:15px 40px;
+ display:flex;justify-content:space-between;align-items:center
+}
+header h2{color:#00d084}
+nav button{
+ background:#00d084;color:white;
+ border:none;border-radius:5px;
+ padding:8px 15px;margin-left:10px;
+ cursor:pointer
+}
+.hero{
+ background:linear-gradient(to right,#00d084,#0ea5e9);
+ color:white;text-align:center;
+ padding:70px
+}
+.hero h1{font-size:40px}
+section{padding:50px}
+h2{text-align:center;margin-bottom:25px}
+.grid{
+ display:flex;flex-wrap:wrap;
+ justify-content:center
+}
+.box{
+ background:white;
+ width:260px;margin:15px;
+ padding:20px;border-radius:10px;
+ box-shadow:0 5px 15px rgba(0,0,0,.1)
+}
+.box h3{margin-bottom:10px;color:#00d084}
+.stats{
+ background:#1f2933;color:white
+}
+.stats .box{background:#111827}
+.form-box{
+ background:white;
+ max-width:600px;margin:auto;
+ padding:25px;border-radius:10px
+}
+input,select,textarea{
+ width:100%;padding:10px;margin:8px 0
+}
+button.main{
+ width:100%;padding:10px;
+ background:#00d084;color:white;
+ border:none;border-radius:5px
+}
+.card{
+ background:white;width:250px;
+ padding:15px;margin:15px;
+ border-radius:10px;
+ box-shadow:0 5px 15px rgba(0,0,0,.1)
+}
+.card button{
+ width:100%;padding:8px;
+ background:#1f2933;color:white;
+ border:none;border-radius:5px
+}
+.hide{display:none}
+footer{
+ background:#111827;color:white;
+ text-align:center;padding:15px
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h2>ReWork Hub</h2>
+<nav>
+<button onclick="show('home')">Home</button>
+<button onclick="show('add')">Add Item</button>
+<button onclick="show('buy')">Buy Item</button>
+</nav>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+<h1>Give Old Products a Second Life ♻</h1>
+<p>Buy • Sell • Repair • Reuse</p>
+</div>
+
+<!-- HOME -->
+<section id="home">
+
+<h2>How It Works</h2>
+<div class="grid">
+<div class="box"><h3>1. Add Item</h3><p>Seller uploads product details</p></div>
+<div class="box"><h3>2. Workshop Check</h3><p>Item inspected & repaired</p></div>
+<div class="box"><h3>3. Certified Sale</h3><p>Buyer purchases verified item</p></div>
+</div>
+
+<h2>Workshop Services</h2>
+<div class="grid">
+<div class="box"><h3>Refurbishing</h3><p>Restore old products</p></div>
+<div class="box"><h3>Repair</h3><p>Fix electronics & tools</p></div>
+<div class="box"><h3>Quality Testing</h3><p>Multi-step inspection</p></div>
+</div>
+
+<h2>Smart & Unique Features</h2>
+<div class="grid">
+<div class="box"><h3>Life Score</h3><p>Remaining product lifespan</p></div>
+<div class="box"><h3>Eco Impact</h3><p>CO₂ saved by reuse</p></div>
+<div class="box"><h3>Trust Badge</h3><p>Workshop certified items</p></div>
+</div>
+
+</section>
+
+<!-- STATS -->
+<section class="stats">
+<h2>Our Impact</h2>
+<div class="grid">
+<div class="box"><h3>1200+</h3><p>Items Reused</p></div>
+<div class="box"><h3>950+</h3><p>Happy Buyers</p></div>
+<div class="box"><h3>30 Days</h3><p>Warranty</p></div>
+</div>
+</section>
+
+<!-- ADD ITEM -->
+<section id="add" class="hide">
+<h2>Add Item (Sell)</h2>
+<div class="form-box">
+<input id="name" placeholder="Item Name">
+<select id="category">
+<option>Electronics</option>
+<option>Furniture</option>
+<option>Tools</option>
+<option>Others</option>
+</select>
+<select id="condition">
+<option>Excellent</option>
+<option>Good</option>
+<option>Fair</option>
+</select>
+<input id="price" type="number" placeholder="Expected Price">
+<textarea id="desc" placeholder="Item Description"></textarea>
+<button class="main" onclick="addItem()">Submit Item</button>
+</div>
+</section>
+
+<!-- BUY ITEM -->
+<section id="buy" class="hide">
+<h2>Buy Refurbished Items</h2>
+<div class="grid" id="list"></div>
+</section>
+
+<footer>
+© 2026 ReWork Hub | Second Hand Workshop System
+</footer>
+
+<script>
+let items=JSON.parse(localStorage.getItem("items"))||[];
+
+function show(id){
+ home.style.display=add.style.display=buy.style.display="none";
+ document.getElementById(id).style.display="block";
+ if(id==="buy")loadItems();
+}
+
+function addItem(){
+ let item={
+  name:name.value,
+  category:category.value,
+  condition:condition.value,
+  price:price.value
+ };
+ items.push(item);
+ localStorage.setItem("items",JSON.stringify(items));
+ alert("Item Added & Sent for Inspection");
+ name.value=price.value="";
+}
+
+function loadItems(){
+ list.innerHTML="";
+ items.forEach((i)=>{
+  list.innerHTML+=`
+  <div class="card">
+   <h3>${i.name}</h3>
+   <p>${i.category}</p>
+   <p>Condition: ${i.condition}</p>
+   <p>₹${i.price}</p>
+   <p>✔ Workshop Certified</p>
+   <button>Buy Now</button>
+  </div>`;
+ });
+}
+</script>
+
+</body>
+</html>
